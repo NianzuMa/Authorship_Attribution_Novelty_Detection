@@ -1,0 +1,44 @@
+---
+
+# (1) class_level_novelty
+# (2) object_level_novelty
+# (3) sentiment_level_novelty
+# (4) Interaction_level_novelty - Variations in the service provider of product or service being reviewed.
+# For example, amazon reviews, oftentimes the review reflects issues with the seller or the shipper,
+# not the product itself.
+
+# class_level_novelty is always there
+novelty_type_list:
+  - [1, 0, 0, 0]  # only have class-level novelty
+  - [1, 1, 0, 0]  # both class-level novelty and object-level novelty
+  - [1, 0, 1, 0]  # both class-level novelty and sentiment-level novelty
+  - [1, 0, 0, 1]  # both class-level novelty and interaction-level novelty (add shipping reviews)
+
+prop_novel_list: [0.3, 0.5, 0.8]
+
+beta_dist_params:
+  low: [1.2, 1.8]   # skewed right
+  mid: [2, 2]       # bell shape, normal like
+  high: [1.8, 1.2]  # skewed left
+  flat: [1, 1]      # uniform distribution
+
+
+# configuration for the batch index that the novel instance appears
+red_light_batch_level_indices:
+  E: [7, 8, 9]
+  M: [17, 18, 19]
+  L: [25, 26, 27]
+
+# no matter red light batch index is, the pre-novelty is always indicated as 5
+# the `novelty_indicator` will also start be switch from 0 to 1
+# the `novelty_instance` is consistent with the red_light_batch_indices
+pre_novelty_batches: 5
+n_rounds: 40
+round_size: 30
+hard_version_warmup_batch_num: 5
+
+# for each line in specification file, how many groups of dataset is generated
+# Each group is generated with different seed
+group_size: 3
+
+...
